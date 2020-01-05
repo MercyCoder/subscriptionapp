@@ -53,13 +53,12 @@ class App extends React.Component {
   render() {
     return (
       <div className="App">
-        <header className="App-header">
+        <header className="App-header"> SUBSCRIPTION MEMBERS
         </header>
-        <div>Members</div>
-        <div>Members:  {this.state.members.map(element => element.name)}
-          <ol>{this.state.sortedSubscriptions.map((element, index) => { return <div key={index}>{element.name} {element.id} {element.subscription} ${parseInt(element.price).toFixed(2)}</div>})}</ol>
+        <div className="members">
+          <ul>{this.state.sortedSubscriptions.map((element, index) => { return <div key={index}> {element.name} | {element.subscription} |  ${parseInt(element.price).toFixed(2)}</div>})}</ul>
         </div>
-        <div>This is your average subscription cost of all your members is |  ${this.state.averagePrice.toFixed(2)}</div>
+        <div >Average subscription cost :  ${this.state.averagePrice.toFixed(2)}</div>
       </div>
     );
   }
