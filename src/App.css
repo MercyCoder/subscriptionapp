@@ -4,6 +4,7 @@
   text-align: center;
   font-family: 'Playfair Display', serif;
   margin-top: 20px;
+  text-align: center;
 }
 
 .App-header {
@@ -15,10 +16,36 @@
   justify-content: center;
 }
 .members {
-  margin: 5px;
-  margin-left: 20%;
+  margin: 15px auto;
   font-size: 20px;
-  text-align: left;
+  border: 1px black solid;
+  width: 80vw;
+  min-width: 550px;
+  max-width: 700px;
 }
-
-
+.name {
+ text-align: left;
+ width: 50%;
+ display: inline-block;
+ min-width: 100px;
+ margin-left: 0px;
+}
+.subscription {
+  text-align: left;
+  width: 20%;
+  display: inline-block;
+  min-width: 50px;
+}
+.cost {
+  text-align: right;
+  width: 20%;
+  display: inline-block;
+  min-width: 50px;
+  padding-right: 15px;
+}
+.memberlist {
+  padding-left: 5px;
+}
+.columnHeaders {
+  margin: 20px;
+}
