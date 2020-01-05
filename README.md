@@ -1,4 +1,13 @@
+## Clone Ruby on Rails API 
+go to https://github.com/MercyCoder/code-test-rails and clone repo and follow README.md file instructions to get dependant API app running locally
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+
+## React if needed:
+run `npm install -g`
+
+## Axios install
+Install axios with `npm i axios`
 
 ## Available Scripts
 
@@ -7,7 +16,7 @@ In the project directory, you can run:
 ### `yarn start`
 
 Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Open on NEW PORT [http://localhost:3001](http://localhost:3001) as your API Rails app should still be running on http://localhost:3001 to view it in the browser.
 
 The page will reload if you make edits.<br />
 You will also see any lint errors in the console.
