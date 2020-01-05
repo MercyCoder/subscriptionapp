@@ -1,7 +1,6 @@
 import React from 'react';
 import './App.css';
 import axios from "axios";
-import { element } from 'prop-types';
 
 class App extends React.Component {
   constructor() {
@@ -10,7 +9,9 @@ class App extends React.Component {
     this.state = {
       members: [],
       sortedSubscriptions: [],
-      averagePrice: 0
+      averagePrice: 0,
+      nameSort: false,
+      priceSort: false
     };
   };
 
@@ -21,33 +22,53 @@ class App extends React.Component {
     )
     .then(response => {
       if (response && response.data) {
-        console.log("this is the data! ", response.data )
         this.setState({ members: response.data});
         this.displayByPrice()
       }
     })
-
     .catch(error => {
       console.log("***** error: " , error);
     });
     abortController.abort();
   }
-  displayByPrice = () => {
-    let tempArray = [].concat(this.state.members).sort((a, b) => a.price > b.price ? -1 : 1);
-    this.setState({sortedSubscriptions: tempArray})
-    console.log("this is sorted subscriptions!", this.state.sortedSubscriptions)
-    console.log("this is the temp array", tempArray)
-    this.returnAveragePrice();
+
+  sortMembers = () => {
+    if (this.state.nameSort === false) {
+      this.state.sortedSubscriptions.sort((a, b) => a.name > b.name ? 1 : -1);
+      this.setState({nameSort: true});
+      this.setState({priceSort: false});
+      this.setState({sortedSubscriptions: this.state.sortedSubscriptions});
+    }
+    else {
+      this.setState({priceSort: false});
+      this.state.sortedSubscriptions.reverse();
+      this.setState({sortedSubscriptions: this.state.sortedSubscriptions});
+    }
   }
+
+  displayByPrice = () => {
+    if (this.state.priceSort === false) {
+      let tempArray = [].concat(this.state.members).sort((a, b) => a.price > b.price ? -1 : 1);
+      this.setState({sortedSubscriptions: tempArray});
+      this.returnAveragePrice();
+      this.setState({nameSort: false});
+      this.setState({priceSort: true});
+
+    }
+    else {
+      this.setState({nameSort: false});
+      this.state.sortedSubscriptions.reverse();
+      this.setState({sortedSubscriptions: this.state.sortedSubscriptions});
+    }
+  }
+
   returnAveragePrice = () => {
     let tempTotal = 0;
     let allSubscriptions = [];
     this.state.sortedSubscriptions.forEach(el => allSubscriptions.push(parseInt(el.price)));
     allSubscriptions.forEach(price => tempTotal += price);
-    console.log("temp total ******", tempTotal, allSubscriptions)
     let tempAvgPrice = tempTotal / allSubscriptions.length;
-    this.setState({averagePrice: tempAvgPrice})
-    console.log(tempAvgPrice)
+    this.setState({averagePrice: tempAvgPrice});
   }
 
   render() {
@@ -55,22 +76,21 @@ class App extends React.Component {
       <div className="App">
         <header className="App-header"> SUBSCRIPTION MEMBERS
         </header>
-
         <div className="members">
         <div className="columnHeaders"> 
-              <span className="name"> NAME </span>  
-              <span className="subscription">SUBSCRIPTION</span>   
-              <span className="cost" >COST</span>
+              <span className="name" onClick={this.sortMembers}> NAME </span>  
+              <span className="subscription" onClick={this.displayByPrice}> SUBSCRIPTION</span>   
+              <span className="cost" onClick={this.displayByPrice}> COST</span>
               <hr/>
             </div>
           <ul className="memberlist">{this.state.sortedSubscriptions.map((element, index) => {
-             return <div id={index} className="row"> 
+             return <div key={index} id={index} className="row"> 
               <span className="name"> {element.name} </span>  
               <span className="subscription">{element.subscription}</span>   
               <span className="cost" >${parseInt(element.price).toFixed(2)}</span>
             </div>})}</ul>
         </div>
-        <div >Average subscription cost :  ${this.state.averagePrice.toFixed(2)}</div>
+        <div >Average subscription cost : ${this.state.averagePrice.toFixed(2)}</div>
       </div>
     );
   }
