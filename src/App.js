@@ -9,7 +9,8 @@ class App extends React.Component {
     this.displaySubscriptions();
     this.state = {
       members: [],
-      sortedSubscriptions: []
+      sortedSubscriptions: [],
+      averagePrice: 0
     };
   };
 
@@ -36,6 +37,17 @@ class App extends React.Component {
     this.setState({sortedSubscriptions: tempArray})
     console.log("this is sorted subscriptions!", this.state.sortedSubscriptions)
     console.log("this is the temp array", tempArray)
+    this.returnAveragePrice();
+  }
+  returnAveragePrice = () => {
+    let tempTotal = 0;
+    let allSubscriptions = [];
+    this.state.sortedSubscriptions.forEach(el => allSubscriptions.push(parseInt(el.price)));
+    allSubscriptions.forEach(price => tempTotal += price);
+    console.log("temp total ******", tempTotal, allSubscriptions)
+    let tempAvgPrice = tempTotal / allSubscriptions.length;
+    this.setState({averagePrice: tempAvgPrice})
+    console.log(tempAvgPrice)
   }
 
   render() {
@@ -45,8 +57,9 @@ class App extends React.Component {
         </header>
         <div>Members</div>
         <div>Members:  {this.state.members.map(element => element.name)}
-          <ol>{this.state.sortedSubscriptions.map((element, index) => { return <div key={index}>{element.name} {element.id} {element.subscription} {element.price}</div>})}</ol>
+          <ol>{this.state.sortedSubscriptions.map((element, index) => { return <div key={index}>{element.name} {element.id} {element.subscription} ${parseInt(element.price).toFixed(2)}</div>})}</ol>
         </div>
+        <div>This is your average subscription cost of all your members is |  ${this.state.averagePrice.toFixed(2)}</div>
       </div>
     );
   }
